@@ -1,1 +1,3 @@
 # 6306 Case Study 1
+
+## Beers and Breweries, oh yeah...
