@@ -43,7 +43,35 @@ median_abv <- median(beers_brews$ABV, na.rm = TRUE)
 median_ibu <- median(beers_brews$IBU, na.rm = TRUE)
 
 library(cowplot)
-par(mfrow=c(1,2))
 plot1 <- ggplot(beers, aes(x= ABV)) + geom_bar(fill="steelblue")+xlab("Alcohol by Volume")+ylab("Number of Beers")+ggtitle("Distribution of ABV")
 plot2 <- ggplot(beers, aes(x= IBU)) + geom_bar(fill="brown2")+xlab("International Bitterness Units")+ylab("Number of Beers")+ggtitle("Distribution of IBU")
 plot_grid(plot1, plot2)
+detach("package:cowplot", unload = TRUE)
+
+# Question 5 State with the most ABV and which with the most IBU
+# State with the Highest ABV -- all infomation
+  beers_brews[which.max(beers_brews$ABV), ]
+  #only state abbreviation
+  beers_brews[which.max(beers_brews$ABV), ]$State
+# State with the Highest IBU -- all infomation
+  beers_brews[which.max(beers_brews$IBU), ]
+  #only state abbreviation
+  beers_brews[which.max(beers_brews$IBU), ]$State
+
+# Question 6 Summary Statistics of ABV Variable
+summary(na.omit(beers$ABV))
+
+# Question 7 relationship between the IBU and ABV, scatter plot
+
+  #Pretty Plot
+pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
+  geom_point(aes(col=IBU, size=ABV)) +
+  geom_smooth(method="loess", se=F) +
+  xlim(c(0, 0.14)) + ylim(c(0, 140)) +
+  labs(y = "International Bitterness Units",
+       x = "Alcohol by Volume") +
+  ggtitle("Relationship between International Bitterness Unit and Alcohol by Volume") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_gray()
+plot(pp)
+
