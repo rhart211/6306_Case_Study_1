@@ -39,12 +39,27 @@ colSums(is.na(beers_brews))
 
 # Question 4 Compute the median alcohol content and international 
 # bitterness unit for each state. Plot a bar chart to compare.
-median_abv <- median(beers_brews$ABV, na.rm = TRUE)
-median_ibu <- median(beers_brews$IBU, na.rm = TRUE)
+median_abv <- tapply(beers_brews$ABV, beers_brews$State, median, na.rm = T)
+med_abv_df <- data.frame(template=names(median_abv), median=median_abv, stringsAsFactors = FALSE)
+colnames(med_abv_df) <- (c("State", "ABV"))
+median_ibu <- tapply(beers_brews$IBU, beers_brews$State, median, na.rm = T)
+med_ibu_df <- data.frame(template=names(median_ibu), median=median_ibu, stringsAsFactors = FALSE)
+colnames(med_ibu_df) <- (c("State", "IBU"))
+
 
 library(cowplot)
-plot1 <- ggplot(beers, aes(x= ABV)) + geom_bar(fill="steelblue")+xlab("Alcohol by Volume")+ylab("Number of Beers")+ggtitle("Distribution of ABV")
-plot2 <- ggplot(beers, aes(x= IBU)) + geom_bar(fill="brown2")+xlab("International Bitterness Units")+ylab("Number of Beers")+ggtitle("Distribution of IBU")
+plot1 <- ggplot(abv_ibu, aes(x = State, y = ABV)) + 
+  geom_bar(stat = "identity", fill="steelblue") +
+  coord_flip() +
+  xlab("State") + ylab("Median Alcohol By Volume") + 
+  ggtitle("Distribution of Median ABV by State") +
+  theme(axis.text.y = element_text(size = 5))
+plot2 <- ggplot(abv_ibu, aes(x = State, y = IBU)) + 
+  geom_bar(stat = "identity", fill="brown2") + 
+  coord_flip() +
+  xlab("State") + ylab("Median International Bitterness Units") + 
+  ggtitle("Distribution of Median IBU by State") + 
+  theme(axis.text.y = element_text(size = 5))
 plot_grid(plot1, plot2)
 detach("package:cowplot", unload = TRUE)
 

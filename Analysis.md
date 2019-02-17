@@ -230,8 +230,8 @@ colSums(is.na(beers_brews))
 ### Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
 
 ```r
-median_abv <- median(beers_brews$ABV, na.rm = TRUE)
-median_ibu <- median(beers_brews$IBU, na.rm = TRUE)
+median_abv <- tapply(beers_brews$ABV, beers_brews$State, median, na.rm = T)
+median_ibu <- tapply(beers_brews$IBU, beers_brews$State, median, na.rm = T)
 ```
 
 #### Median Alcohol by Volume
@@ -241,7 +241,18 @@ median_abv
 ```
 
 ```
-## [1] 0.056
+##     AK     AL     AR     AZ     CA     CO     CT     DC     DE     FL 
+## 0.0560 0.0600 0.0520 0.0550 0.0580 0.0605 0.0600 0.0625 0.0550 0.0570 
+##     GA     HI     IA     ID     IL     IN     KS     KY     LA     MA 
+## 0.0550 0.0540 0.0555 0.0565 0.0580 0.0580 0.0500 0.0625 0.0520 0.0540 
+##     MD     ME     MI     MN     MO     MS     MT     NC     ND     NE 
+## 0.0580 0.0510 0.0620 0.0560 0.0520 0.0580 0.0550 0.0570 0.0500 0.0560 
+##     NH     NJ     NM     NV     NY     OH     OK     OR     PA     RI 
+## 0.0550 0.0460 0.0620 0.0600 0.0550 0.0580 0.0600 0.0560 0.0570 0.0550 
+##     SC     SD     TN     TX     UT     VA     VT     WA     WI     WV 
+## 0.0550 0.0600 0.0570 0.0550 0.0400 0.0565 0.0550 0.0555 0.0520 0.0620 
+##     WY 
+## 0.0500
 ```
 
 #### Median Internation Bitterness Units
@@ -251,18 +262,46 @@ median_ibu
 ```
 
 ```
-## [1] 35
+##   AK   AL   AR   AZ   CA   CO   CT   DC   DE   FL   GA   HI   IA   ID   IL 
+## 46.0 43.0 39.0 20.5 42.0 40.0 29.0 47.5 52.0 55.0 55.0 22.5 26.0 39.0 30.0 
+##   IN   KS   KY   LA   MA   MD   ME   MI   MN   MO   MS   MT   NC   ND   NE 
+## 33.0 20.0 31.5 31.5 35.0 29.0 61.0 35.0 44.5 24.0 45.0 40.0 33.5 32.0 35.0 
+##   NH   NJ   NM   NV   NY   OH   OK   OR   PA   RI   SC   SD   TN   TX   UT 
+## 48.5 34.5 51.0 41.0 47.0 40.0 35.0 40.0 30.0 24.0 30.0   NA 37.0 33.0 34.0 
+##   VA   VT   WA   WI   WV   WY 
+## 42.0 30.0 38.0 19.0 57.5 21.0
+```
+
+#### create data frames from the above medians to be used in Graphs
+
+```r
+med_abv_df <- data.frame(template=names(median_abv), median=median_abv, stringsAsFactors = FALSE)
+colnames(med_abv_df) <- (c("State", "ABV"))
+med_ibu_df <- data.frame(template=names(median_ibu), median=median_ibu, stringsAsFactors = FALSE)
+colnames(med_ibu_df) <- (c("State", "IBU"))
+# Merge the two together
+abv_ibu <- merge(med_abv_df, med_ibu_df, by="State")
 ```
 
 #### Ditributions of ABV and IBU
 
 ```r
-plot1 <- ggplot(beers, aes(x= ABV)) + geom_bar(fill="steelblue")+xlab("Alcohol by Volume")+ylab("Number of Beers")+ggtitle("Distribution of ABV")
-plot2 <- ggplot(beers, aes(x= IBU)) + geom_bar(fill="brown2")+xlab("International Bitterness Units")+ylab("Number of Beers")+ggtitle("Distribution of IBU")
+plot1 <- ggplot(abv_ibu, aes(x = State, y = ABV)) + 
+  geom_bar(stat = "identity", fill="steelblue") +
+  coord_flip() +
+  xlab("State") + ylab("Median Alcohol By Volume") + 
+  ggtitle("Distribution of Median ABV by State") +
+  theme(axis.text.y = element_text(size = 5))
+plot2 <- ggplot(abv_ibu, aes(x = State, y = IBU)) + 
+  geom_bar(stat = "identity", fill="brown2") + 
+  coord_flip() +
+  xlab("State") + ylab("Median International Bitterness Units") + 
+  ggtitle("Distribution of Median IBU by State") + 
+  theme(axis.text.y = element_text(size = 5))
 plot_grid(plot1, plot2)
 ```
 
-![](Analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](Analysis_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 
 ## Question of Interest 5 State with the most ABV and which with the most IBU
@@ -343,4 +382,4 @@ pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
 plot(pp)
 ```
 
-![](Analysis_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](Analysis_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
