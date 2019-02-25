@@ -93,3 +93,18 @@ pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
 plot(pp)
 
 # Presentation Statistics
+local_beers <- subset (beers_brews, State == c(' TX', ' OK', ' LA', ' OR', ' CO'), 
+                        select = c('Brewery_id', 'Beer_name', 'Beer_ID', 'ABV', 'IBU', 'Style', 
+                                   'Ounces', 'Brewery_name', 'City', 'State'))
+
+# ABV and IBU for local area 
+local_abv <- tapply(local_beers$ABV, local_beers$Brewery_name, median, na.rm = T)
+local_abv_df <- data.frame(template=names(local_abv), median=local_abv, stringsAsFactors = FALSE)
+colnames(local_abv_df) <- (c("Brewery_name", "ABV"))
+local_abv_df <- na.omit(local_abv_df)
+local_ibu <- tapply(local_beers$IBU, local_beers$Brewery_name, median, na.rm = T)
+local_ibu_df <- data.frame(template=names(local_ibu), median=local_ibu, stringsAsFactors = FALSE)
+colnames(local_ibu_df) <- (c("Brewery_name", "IBU"))
+local_ibu_df <- na.omit(local_ibu_df)
+# Merge the two together
+local_abv_ibu <- merge(local_abv_df, local_ibu_df, by="Brewery_name")
