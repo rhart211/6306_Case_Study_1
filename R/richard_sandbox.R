@@ -114,3 +114,19 @@ head(local_abv_ibu[order(local_abv_ibu$IBU, decreasing = T), ], 10)
 
 # TOp 10 Breweries by ABV
 head(local_abv_ibu[order(local_abv_ibu$ABV, decreasing = T), ], 10)
+
+## Goal is to Create a dataframe containing the number of beers per Brewery in each State
+# Count the number of beers per Brewery in each State
+local_counts <- data.frame(count(local_beers, vars = c("Brewery_name", "State")))
+# Change the number of freq to Beer_Count
+names(local_counts)[3] <- "Beer_Count"
+# Descending Order of local counts by the State and then by Beer Count 
+local_counts <- local_counts[order(local_counts$State, local_counts$Beer_Count, decreasing = T), ]
+
+# Top 3 Breweries with the highest number of beers in each State
+# Create a by structure cotaining 3 breweries with the most beers per state
+top3_by_state <- by(local_counts, local_counts$State, head, n=3)
+# Combine the values in top3_by_state using Reduce and rbind into a data frame
+top3_by_state <- Reduce(rbind, top3_by_state)
+# Write this result to CSV
+write.csv(top3_by_state, file = "top3_by_state.csv")
