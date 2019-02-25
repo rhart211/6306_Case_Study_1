@@ -45,6 +45,8 @@ colnames(med_abv_df) <- (c("State", "ABV"))
 median_ibu <- tapply(beers_brews$IBU, beers_brews$State, median, na.rm = T)
 med_ibu_df <- data.frame(template=names(median_ibu), median=median_ibu, stringsAsFactors = FALSE)
 colnames(med_ibu_df) <- (c("State", "IBU"))
+# Merge the two together
+abv_ibu <- merge(med_abv_df, med_ibu_df, by="State")
 
 
 library(cowplot)
@@ -90,3 +92,4 @@ pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
   theme_gray()
 plot(pp)
 
+# Presentation Statistics
