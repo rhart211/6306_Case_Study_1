@@ -113,4 +113,4 @@ local_abv_ibu <- merge(local_abv_df, local_ibu_df, by="Brewery_name")
 head(local_abv_ibu[order(local_abv_ibu$IBU, decreasing = T), ], 10)
 
 # TOp 10 Breweries by ABV
-head(local_abv_ibu[order(local_abv_ibu$IBU, decreasing = T), ], 10)
+head(local_abv_ibu[order(local_abv_ibu$ABV, decreasing = T), ], 10)
