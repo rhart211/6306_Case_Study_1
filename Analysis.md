@@ -1,7 +1,7 @@
 ---
-title: "Case Study 1"
-author: "Richard Hart"
-date: "February 16, 2019"
+title: "Rich Tastes Beer Fest Analytics"
+author: "Jeremy Simpson, Ross Fu, Richard Hart"
+date: "February 26, 2019"
 output: 
   html_document:
     keep_md: true
@@ -158,6 +158,11 @@ WY      4
 ```r
 # Merge the two data frames into one data frame
 beers_brews <- merge(beers, breweries, by="Brewery_id", all=TRUE)
+```
+
+### First 6 Observations
+
+```r
 head(beers_brews, 6)
 ```
 
@@ -184,6 +189,8 @@ head(beers_brews, 6)
 ## 5 Minneapolis    MN
 ## 6 Minneapolis    MN
 ```
+
+### Last 6 Observations
 
 ```r
 tail(beers_brews, 6)
@@ -311,7 +318,7 @@ plot2 <- ggplot(abv_ibu, aes(x = State, y = IBU)) +
 plot_grid(plot1, plot2)
 ```
 
-![](Analysis_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](Analysis_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 
 ## Question of Interest 5 State with the most ABV and which with the most IBU
@@ -399,4 +406,11 @@ pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
 plot(pp)
 ```
 
-![](Analysis_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](Analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+
+# Conclusion
+
+Data Analytics is a very powerful tool.  Using such tools and techniques adds value to our company. Our business strategy is to provide the best tasting best quality beer to our customer base. Choosing a quality beer may seem like a very simple task.  This becomes complicated when you have so many beers at breweries spread out across several different geographical regions, with vastly different qualities. The data was presented in a way that allowed our decision makers to make quick and informed decisions. Analytics allows us to narrow our search and still factor in the qualities that are most important to us. Analysis allowed us to discover the regions with the most potential for growth.  We found the regions that suffer from a scarcity of quality breweries.  No one should be deprived of quality beer.
+
+Through the analysis of the data we discovered the states densely populated with breweries that feature a great selection of quality craft beers prompting us to forge ties with them. Our long standing company motto is "Winning Hearts with Rich Tastes". Employing innovative strategies like Data Analytics will aid the company long into the future in providing our customers with the highest quality best tasting beers.
+
