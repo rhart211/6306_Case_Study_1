@@ -1,3 +1,4 @@
-# 6306 Case Study 1
+# Rich Tastes Beer Festival
 
-## Beers and Breweries, oh yeah...
+## This is detailed analysis of all beers in the United States looking closely at Alcohol by Volume, and Internation Bitterness Units for
+## the Rich Tastes Festival.
