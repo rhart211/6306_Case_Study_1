@@ -79,15 +79,15 @@ names(beers)[1] <- "Beer_name"
 
 # Introduction
 
-Breweries and Beers created, made, developed and loved in the United States. 
-
-* include details about the beers, and breweries
-* Mr. Customer the following is a detailed analysis answering the 7 questions of interest.
+This year, 2019, marks the 25 year anniversary that Rich Tastes has been winning hearts by providing the highest quality and best tasting beer from the top breweries in the country to the state of Texas.  The past five years we have enjoyed our most successful run in company history.  We are now the top distributor for the entire state of Texas, and in 2014 and 2017 we expanded our territories to include the states of Louisiana and Oklahoma. Additionally we added several new breweries and many new beers to our distinctive distribution collection.
+Our marketing team is planning the 'Rich Tastes Silver Jubilee Beer Fest’, to celebrate this monumental event in our company’s history. It is at this time that we will announce the our expansion to cover the territories of Alabama, Arkansas, and Mississippi.  We are also featuring new beers from breweries in Oregon and Colorado which will be featured at the beer fest.  
+The Data Analytics team of Ross, Richard and I were given a data set of beers and breweries spanning the entire country. Today we will present to you how we used statistical analysis tools to break down the data to help make critical business decisions. 
+The following is a detailed analysis answering the 7 questions of interest.
   
 # Analysis
 
 ## Question of Interest 1 
-### Number of Breweries in Each State
+### Builds a nice Table of Beers Per State with Beers and their counts.
 
 ```r
 library(knitr)
@@ -153,9 +153,10 @@ WV      1
 WY      4          
 
 ## Question of Interest 2 
-### Merged Dataset, First 6 and Last 6 observations
+### Merge the two data frames into one data frame,  List the First 6 and Last 6 Observations in the data frame.
 
 ```r
+# Merge the two data frames into one data frame
 beers_brews <- merge(beers, breweries, by="Brewery_id", all=TRUE)
 head(beers_brews, 6)
 ```
@@ -213,9 +214,10 @@ tail(beers_brews, 6)
 ```
 
 ## Question of Interest 3 
-### Report the number of NAs in each column
+### Report the number of NAs in each column of the merged data frame.
 
 ```r
+# Count the number of NA's in each column of the merged data frame.
 colSums(is.na(beers_brews))
 ```
 
@@ -227,9 +229,10 @@ colSums(is.na(beers_brews))
 ```
 
 ## Question of Interest 4 
-### Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+### Computed  median alcohol by volume content and  median international bitterness units for each state. Along with a bar chart for each.
 
 ```r
+# Computes median abv ibu for each state, removing NAs
 median_abv <- tapply(beers_brews$ABV, beers_brews$State, median, na.rm = T)
 median_ibu <- tapply(beers_brews$IBU, beers_brews$State, median, na.rm = T)
 ```
@@ -237,6 +240,7 @@ median_ibu <- tapply(beers_brews$IBU, beers_brews$State, median, na.rm = T)
 #### Median Alcohol by Volume
 
 ```r
+# Reporting Median ABV
 median_abv
 ```
 
@@ -258,6 +262,7 @@ median_abv
 #### Median Internation Bitterness Units
 
 ```r
+# Reporting Median IBU
 median_ibu
 ```
 
@@ -272,26 +277,31 @@ median_ibu
 ## 42.0 30.0 38.0 19.0 57.5 21.0
 ```
 
-#### create data frames from the above medians to be used in Graphs
+#### Create data frames from the above medians, merge them together so that they can be used in Bar Charts.
 
 ```r
+# Create a data frame of the median ABV
 med_abv_df <- data.frame(template=names(median_abv), median=median_abv, stringsAsFactors = FALSE)
 colnames(med_abv_df) <- (c("State", "ABV"))
+# Create a data frame of the median IBU
 med_ibu_df <- data.frame(template=names(median_ibu), median=median_ibu, stringsAsFactors = FALSE)
 colnames(med_ibu_df) <- (c("State", "IBU"))
-# Merge the two together
+# Merge the two data frames above into one data frame.
 abv_ibu <- merge(med_abv_df, med_ibu_df, by="State")
 ```
 
-#### Ditributions of ABV and IBU
+#### Bar Chart Ditributions of Alchohol By Volume and International Bitterness Units Per State.
 
 ```r
+# Creates Bar Chart Ditributions of Alchohol By Volume
 plot1 <- ggplot(abv_ibu, aes(x = State, y = ABV)) + 
   geom_bar(stat = "identity", fill="steelblue") +
   coord_flip() +
   xlab("State") + ylab("Median Alcohol By Volume") + 
   ggtitle("Distribution of Median ABV by State") +
   theme(axis.text.y = element_text(size = 5))
+
+# Creates Bar Chart Ditributions of International Bitterness Units
 plot2 <- ggplot(abv_ibu, aes(x = State, y = IBU)) + 
   geom_bar(stat = "identity", fill="brown2") + 
   coord_flip() +
@@ -309,6 +319,7 @@ plot_grid(plot1, plot2)
 ### State with the Highest ABV (ALL)
 
 ```r
+# State with the highest ABV includes all information about the beer and brewery
 beers_brews[which.max(beers_brews$ABV), ]
 ```
 
@@ -324,6 +335,7 @@ beers_brews[which.max(beers_brews$ABV), ]
 ##### Only State Abbreviation
 
 ```r
+# State with the highest ABV only
 beers_brews[which.max(beers_brews$ABV), ]$State
 ```
 
@@ -334,6 +346,7 @@ beers_brews[which.max(beers_brews$ABV), ]$State
 #### State with the Highest IBU (ALL)
 
 ```r
+# State with the highest IBU includes all information about the beer and brewery
 beers_brews[which.max(beers_brews$IBU), ]
 ```
 
@@ -349,6 +362,7 @@ beers_brews[which.max(beers_brews$IBU), ]
 ##### Only State Abbreviation
 
 ```r
+# State with the highest IBU only
   beers_brews[which.max(beers_brews$IBU), ]$State
 ```
 
@@ -356,9 +370,11 @@ beers_brews[which.max(beers_brews$IBU), ]
 ## [1] " OR"
 ```
 
-# Question of Interest 6 Summary Statistics of Alcohol by Volume
+# Question of Interest 6 
+## Summary Statistics of Alcohol by Volume for all Beers in all States.
 
 ```r
+# Summary statistics for ABV; omitting NAs
 summary(na.omit(beers$ABV))
 ```
 
@@ -367,7 +383,8 @@ summary(na.omit(beers$ABV))
 ## 0.00100 0.05000 0.05600 0.05977 0.06700 0.12800
 ```
 
-# Question 7 ScatterPlot of the Relationship Between IBU and ABV
+# Question of Interest 7 
+## ScatterPlot of the Relationship Between IBU and ABV
 
 ```r
 pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
