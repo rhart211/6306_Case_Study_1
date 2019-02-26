@@ -1,6 +1,6 @@
 ---
 title: "Rich Tastes Beer Fest Analytics"
-author: "Jeremy Simpson, Ross Fu, Richard Hart"
+authors: "Jeremy Simpson, Ross Fu, Richard Hart"
 date: "February 26, 2019"
 ---
 
