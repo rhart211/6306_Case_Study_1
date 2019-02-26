@@ -414,3 +414,6 @@ Data Analytics is a very powerful tool.  Using such tools and techniques adds va
 
 Through the analysis of the data we discovered the states densely populated with breweries that feature a great selection of quality craft beers prompting us to forge ties with them. Our long standing company motto is "Winning Hearts with Rich Tastes". Employing innovative strategies like Data Analytics will aid the company long into the future in providing our customers with the highest quality best tasting beers.
 
+# Beer Fest Analytics Github Repository
+
+https://github.com/rhart211/6306_Case_Study_1
