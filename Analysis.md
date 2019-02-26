@@ -298,7 +298,7 @@ plot1 <- ggplot(abv_ibu, aes(x = State, y = ABV)) +
   geom_bar(stat = "identity", fill="steelblue") +
   coord_flip() +
   xlab("State") + ylab("Median Alcohol By Volume") + 
-  ggtitle("Distribution of Median ABV by State") +
+  ggtitle("Distribution of Median ABV") +
   theme(axis.text.y = element_text(size = 5))
 
 # Creates Bar Chart Ditributions of International Bitterness Units
@@ -306,7 +306,7 @@ plot2 <- ggplot(abv_ibu, aes(x = State, y = IBU)) +
   geom_bar(stat = "identity", fill="brown2") + 
   coord_flip() +
   xlab("State") + ylab("Median International Bitterness Units") + 
-  ggtitle("Distribution of Median IBU by State") + 
+  ggtitle("Distribution of Median IBU") + 
   theme(axis.text.y = element_text(size = 5))
 plot_grid(plot1, plot2)
 ```
@@ -384,7 +384,7 @@ summary(na.omit(beers$ABV))
 ```
 
 # Question of Interest 7 
-## ScatterPlot of the Relationship Between IBU and ABV
+## Scatter Plot of the Relationship Between IBU and ABV
 
 ```r
 pp<- ggplot(beers, aes(x=ABV, y=IBU)) +
